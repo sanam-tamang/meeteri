@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "498662428488",
+    "project_id": "meeteri",
+    "storage_bucket": "meeteri.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498662428488:android:775432d99036e54d592d7d",
+        "android_client_info": {
+          "package_name": "com.sukuna.meeteri"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3sJtDH4PvxEbxqS4FIEnVp7BXVDgylnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
