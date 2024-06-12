@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:meeteri/common/db_collections.dart';
-import 'package:meeteri/common/enum.dart';
-import 'package:meeteri/common/typedef.dart';
-import 'package:meeteri/core/failure/failure.dart';
+import '/common/db_collections.dart';
+import '/common/enum.dart';
+import '/common/typedef.dart';
+import '/core/failure/failure.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '/features/profile/models/user.dart';
 
 sealed class BaseUserRepository {
   FutureEither<String> addUserInfo(
@@ -21,6 +22,11 @@ sealed class BaseUserRepository {
     required String specialization,
     required String hospital,
   });
+
+  Future<UserModel?> getUser(String userId) ;
+
+
+  
 }
 
 class UserRepository implements BaseUserRepository {
@@ -71,5 +77,17 @@ class UserRepository implements BaseUserRepository {
     } catch (e) {
       return Left(FailureWithMessage(e.toString()));
     }
+  }
+
+  @override
+  Future<UserModel?> getUser(String userId) async {
+    final map = await _firestore.collection('user').doc(userId).get();
+    final data = map.data();
+    if (data != null) {
+      final user = UserModel.fromJson(data);
+      return user;
+    }
+
+    return null;
   }
 }

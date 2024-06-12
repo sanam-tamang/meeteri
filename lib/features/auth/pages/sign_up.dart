@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:meeteri/common/enum.dart';
-import 'package:meeteri/common/utils/custom_toast.dart';
-import 'package:meeteri/dependency_injection.dart';
-import 'package:meeteri/features/auth/blocs/auth_bloc/auth_bloc.dart';
+import '/common/extensions.dart';
+import '/common/utils/username_generator.dart';
+import '/router.dart';
+import '../../../common/utils/floating_loading_indicator.dart';
+import '/common/enum.dart';
+import '/common/utils/custom_toast.dart';
+import '../../dependency_injection.dart';
+import '/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:toastification/toastification.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -33,6 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _genderController = TextEditingController();
   final _dateOfBirthController = TextEditingController();
 
+  late AuthBloc _authBloc;
   Future<void> _pickAvatar() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -41,6 +48,12 @@ class _SignUpPageState extends State<SignUpPage> {
         _avatar = File(pickedFile.path);
       });
     }
+  }
+
+  @override
+  void initState() {
+    _authBloc = sl<AuthBloc>();
+    super.initState();
   }
 
   @override
@@ -62,30 +75,48 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Registration Form'),
-      ),
-      body: Column(
-        children: [
-          LinearProgressIndicator(
-            value: (_currentPage + 1) / 4, // Adjust based on number of pages
+        appBar: AppBar(
+          title: const Text('Registration Form'),
+        ),
+        body: BlocListener<AuthBloc, AuthState>(
+          bloc: _authBloc,
+          listener: (context, state) {
+            state.maybeMap(
+                loading: (_) => floatingLoadingIndicator(context),
+                failure: (f) {
+                  customToast(context, f.failure.getMessage,
+                      type: ToastificationType.error);
+                  context.pop();
+                },
+                loaded: (s) {
+                  customToast(context, s.message);
+                  context.pop();
+                  context.goNamed(AppRouteName.home);
+                },
+                orElse: () {});
+          },
+          child: Column(
+            children: [
+              LinearProgressIndicator(
+                value:
+                    (_currentPage + 1) / 4, // Adjust based on number of pages
+              ),
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: _onPageChanged,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    _buildUserTypePage(),
+                    _buildUsernamePasswordPage(),
+                    _buildGenderDateOfBirthPage(),
+                    _buildAvatarPage(),
+                  ],
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: _onPageChanged,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                _buildUserTypePage(),
-                _buildUsernamePasswordPage(),
-                _buildGenderDateOfBirthPage(),
-                _buildAvatarPage(),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 
   Widget _buildUserTypePage() {
@@ -151,16 +182,9 @@ class _SignUpPageState extends State<SignUpPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
-            controller: _usernameController,
-            decoration: const InputDecoration(labelText: 'Username'),
-            onChanged: (value) {
-              _username = value;
-            },
-          ),
-          TextField(
             controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Password'),
-            obscureText: true,
+            decoration: const InputDecoration(labelText: 'email'),
+            obscureText: false,
             onChanged: (value) {
               _email = value;
             },
@@ -233,12 +257,9 @@ class _SignUpPageState extends State<SignUpPage> {
             onPressed: _pickAvatar,
             child: const Text('Pick Avatar'),
           ),
-
-      
-
-           ElevatedButton(
+          ElevatedButton(
             onPressed: _onSignUp,
-            child: const Text('Sign up'),
+            child: const Text('Continue'),
           ),
         ],
       ),
@@ -246,29 +267,25 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future<void> _onSignUp() async {
-    try {
-      String avatarUrl = '';
-      if (_avatar != null) {
-        // Upload the avatar to Firebase Storage
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('avatars/${DateTime.now().millisecondsSinceEpoch}.jpg');
-        await storageRef.putFile(_avatar!);
-        avatarUrl = await storageRef.getDownloadURL();
-      }
-
-      sl<AuthBloc>().add(AuthEvent.signUp(
-        email: _email,
-        userType: UserType.parent,
-        username: _username,
-        password: _password,
-        gender: _gender,
-        dateOfBirth: _dateOfBirth,
-        avatar: avatarUrl,
-      ));
-    } catch (e) {
-      // ignore: use_build_context_synchronously
-      customToast(context, e.toString(), type: ToastificationType.error);
+    String avatarUrl = '';
+    if (_avatar != null) {
+      // Upload the avatar to Firebase Storage
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('avatars/${DateTime.now().millisecondsSinceEpoch}.jpg');
+      await storageRef.putFile(_avatar!);
+      avatarUrl = await storageRef.getDownloadURL();
     }
+
+    _username = generateUsername();
+    _authBloc.add(AuthEvent.signUp(
+      email: _email,
+      userType: _userType ?? UserType.student,
+      username: _username,
+      password: _password,
+      gender: _gender,
+      dateOfBirth: _dateOfBirth,
+      avatar: avatarUrl,
+    ));
   }
 }

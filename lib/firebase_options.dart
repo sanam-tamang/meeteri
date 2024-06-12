@@ -61,9 +61,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC3sJtDH4PvxEbxqS4FIEnVp7BXVDgylnY',
-    appId: '1:498662428488:android:775432d99036e54d592d7d',
+    appId: '1:498662428488:android:40cf87f5dc26179f592d7d',
     messagingSenderId: '498662428488',
     projectId: 'meeteri',
     storageBucket: 'meeteri.appspot.com',
   );
+
 }

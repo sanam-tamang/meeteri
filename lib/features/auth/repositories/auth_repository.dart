@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meeteri/common/enum.dart';
-import 'package:meeteri/common/typedef.dart';
-import 'package:meeteri/core/failure/failure.dart';
-import 'package:meeteri/core/internet/internet_checker.dart';
-import 'package:meeteri/features/profile/repositories/user_repository.dart';
+import '/common/enum.dart';
+import '/common/typedef.dart';
+import '/core/failure/failure.dart';
+import '/core/internet/internet_checker.dart';
+import '/features/profile/repositories/user_repository.dart';
 
 ///common error method
 const String _errorMessage =

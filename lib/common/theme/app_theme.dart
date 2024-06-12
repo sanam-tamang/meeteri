@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meeteri/common/theme/pallets.dart';
+import '/common/theme/pallets.dart';
 
 
 

@@ -1,6 +1,6 @@
 
 import 'package:dartz/dartz.dart';
-import 'package:meeteri/core/failure/failure.dart';
+import '/core/failure/failure.dart';
 
 
 
