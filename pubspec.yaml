@@ -60,6 +60,7 @@ dependencies:
   flutter_firebase_chat_core: ^1.6.8
   uuid: ^4.4.0
   fl_chart: ^0.68.0
+  audio_wave: ^0.1.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

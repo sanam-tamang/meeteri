@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:meeteri/common/widgets/custom_text_field.dart';
+import '../../../common/widgets/app_logo.dart';
 import '../../../dependency_injection.dart';
 import '/common/extensions.dart';
 import '/common/utils/username_generator.dart';
@@ -26,12 +28,12 @@ class _SignUpPageState extends State<SignUpPage> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  UserType? _userType;
+  UserType? _userType = UserType.student;
   String _username = '';
   String _password = '';
   String _email = '';
-  String _gender = '';
-  String _dateOfBirth = '';
+  String? _gender;
+  String? _dateOfBirth;
   File? _avatar;
 
   final _usernameController = TextEditingController();
@@ -77,9 +79,9 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: const BackButton(),
-          title: const Text('Create Your Account'),
-        ),
+            // leading: const BackButton(),
+            // title: const Text('Create Your Account'),
+            ),
         body: BlocListener<AuthBloc, AuthState>(
           bloc: _authBloc,
           listener: (context, state) {
@@ -121,40 +123,85 @@ class _SignUpPageState extends State<SignUpPage> {
         ));
   }
 
-  Widget _buildUserTypePage() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('User'),
-            SizedBox(
-              height: 150,
-              width: double.infinity,
-              child: GridView(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                         height: 100,
-                      color: Colors.blue.shade600,
-                      child: const Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Counselor'),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+  Widget _buildGenderPicker() {
+    return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButtonFormField<String>(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
               ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+              labelText: 'Select Gender',
             ),
-            const Gap(20),
-            ElevatedButton(
+            value: _gender,
+            hint: const Text("Select your gender"),
+            items: <String>['Male', 'Female', 'Other'].map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                _gender = newValue ?? "Male";
+              });
+            },
+          ),
+        ));
+  }
+
+  Widget _buildUserTypePage() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "Start your journey with",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 64),
+          ),
+          const AppLogo(),
+          const Center(
+            child: Text(
+              'Select Your Role',
+              style: TextStyle(fontSize: 32),
+            ),
+          ),
+          const Gap(28),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: UserType.values
+                .map((e) => InkWell(
+                      onTap: () {
+                        _userType = e;
+                        setState(() {});
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: e == _userType
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.black45,
+                            borderRadius: BorderRadius.circular(16)),
+                        padding: const EdgeInsets.all(12),
+                        margin: const EdgeInsets.all(12),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Text(
+                            e.name.capitalizeFirst(),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ),
+          const Gap(20),
+          SizedBox(
+            width: double.maxFinite,
+            child: FilledButton(
               onPressed: () {
                 _pageController.nextPage(
                   duration: const Duration(milliseconds: 300),
@@ -163,10 +210,26 @@ class _SignUpPageState extends State<SignUpPage> {
               },
               child: const Text('Next'),
             ),
-          ],
-        ),
+          ),
+          TextButton(
+            onPressed: _navigateToSignIn,
+            child: RichText(
+              text: const TextSpan(children: [
+                TextSpan(
+                    text: "Already have an account?",
+                    style: TextStyle(color: Colors.black54)),
+                TextSpan(text: "Sign in", style: TextStyle(color: Colors.blue)),
+              ]),
+            ),
+          ),
+          const Gap(80),
+        ],
       ),
     );
+  }
+
+  void _navigateToSignIn() {
+    context.goNamed(AppRouteName.signIn);
   }
 
   Widget _buildUsernamePasswordPage() {
@@ -174,31 +237,39 @@ class _SignUpPageState extends State<SignUpPage> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TextField(
+          const AppLogo(),
+          CustomTextField(
             controller: _emailController,
-            decoration: const InputDecoration(labelText: 'email'),
-            obscureText: false,
+            hintText: "Enter your email",
+            labelText: "Email",
             onChanged: (value) {
               _email = value;
             },
           ),
-          TextField(
+          const Gap(20),
+          CustomTextField(
             controller: _passwordController,
-            decoration: const InputDecoration(labelText: 'Password'),
+            hintText: "Enter your password",
+            labelText: "Password",
             obscureText: true,
             onChanged: (value) {
               _password = value;
             },
           ),
-          ElevatedButton(
-            onPressed: () {
-              _pageController.nextPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.ease,
-              );
-            },
-            child: const Text('Next'),
+          const Gap(25),
+          SizedBox(
+            width: double.maxFinite,
+            child: FilledButton(
+              onPressed: () {
+                _pageController.nextPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.ease,
+                );
+              },
+              child: const Text('Next'),
+            ),
           ),
         ],
       ),
@@ -211,53 +282,90 @@ class _SignUpPageState extends State<SignUpPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextField(
-            controller: _genderController,
-            decoration: const InputDecoration(labelText: 'Gender'),
-            onChanged: (value) {
-              _gender = value;
-            },
-          ),
-          TextField(
-            controller: _dateOfBirthController,
-            decoration: const InputDecoration(labelText: 'Date of Birth'),
-            onChanged: (value) {
-              _dateOfBirth = value;
-            },
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _pageController.nextPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.ease,
-              );
-            },
-            child: const Text('Next'),
+          const AppLogo(),
+          _buildGenderPicker(),
+          const Gap(20),
+          _birthDatePicker(),
+          const Gap(25),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(
+              onPressed: () {
+                _pageController.nextPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.ease,
+                );
+              },
+              child: const Text('Next'),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildAvatarPage() {
+  Future<void> _selectYear(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+      initialDatePickerMode: DatePickerMode.year,
+    );
+    if (picked != null) {
+      setState(() {
+        _dateOfBirth = picked.year.toString();
+      });
+    }
+  }
+
+  Widget _birthDatePicker() {
     return Center(
+      child: ElevatedButton(
+        onPressed: () => _selectYear(context),
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+          textStyle: const TextStyle(fontSize: 18.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ),
+        child: Text(
+          _dateOfBirth == null
+              ? 'Select birth year'
+              : 'Birth year: ${_dateOfBirth.toString()}',
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAvatarPage() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 55, vertical: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const AppLogo(),
+          const Text(
+            "Profile avatar",
+            style: TextStyle(fontSize: 32),
+          ),
+          const Gap(32),
           _avatar == null
-              ? const Text('No image selected.')
+              ? circleCameraButton()
               : CircleAvatar(
                   radius: 80,
                   backgroundImage: FileImage(_avatar!),
                 ),
-          ElevatedButton(
-            onPressed: _pickAvatar,
-            child: const Text('Pick Avatar'),
+          const Gap(35),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(
+              onPressed: _onSignUp,
+              child: const Text('Continue'),
+            ),
           ),
-          ElevatedButton(
-            onPressed: _onSignUp,
-            child: const Text('Continue'),
-          ),
+          const Gap(200),
         ],
       ),
     );
@@ -280,9 +388,30 @@ class _SignUpPageState extends State<SignUpPage> {
       userType: _userType ?? UserType.student,
       username: _username,
       password: _password,
-      gender: _gender,
-      dateOfBirth: _dateOfBirth,
+      gender: _gender!,
+      dateOfBirth: _dateOfBirth.toString(),
       avatar: avatarUrl,
     ));
+  }
+
+  Widget circleCameraButton() {
+    return Container(
+      width: 120.0,
+      height: 120.0,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade500,
+        shape: BoxShape.circle,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: IconButton(
+          icon: const Icon(Icons.camera_alt, color: Colors.white, size: 30.0),
+          onPressed: _pickAvatar),
+    );
   }
 }

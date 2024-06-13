@@ -7,6 +7,7 @@ import 'package:meeteri/features/chat/pages/messaged_user.dart';
 import 'package:meeteri/features/home/pages/explore_page.dart';
 import 'package:meeteri/features/post/blocs/post_bloc/post_bloc.dart';
 import 'package:meeteri/features/profile/pages/profile.dart';
+import 'package:meeteri/features/therapy/pages/therapy.dart';
 import '../../../dependency_injection.dart';
 import '/router.dart';
 
@@ -23,10 +24,10 @@ class _HomePageState extends State<HomePage> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     ExplorePage(),
-    Text('Exercise Page'),
+    TherapyPage(),
     Text('add btn'),
     MessagedUserPage(),
-    UserProfileScreen(),
+    UserProfilePage(),
   ];
 
   @override

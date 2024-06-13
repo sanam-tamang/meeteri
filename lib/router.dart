@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meeteri/features/chat/pages/chat_page.dart';
+import 'package:meeteri/features/chat/pages/messaged_user.dart';
 import 'package:meeteri/features/habit/pages/habit_page_main.dart';
 import 'package:meeteri/features/habit/pages/habit_progress.dart';
 import 'package:meeteri/features/note/pages/note_page.dart';
+import 'package:meeteri/features/profile/pages/profile.dart';
 import '/features/post/pages/create_post_page.dart';
 import '/common/extensions.dart';
 import '/features/auth/pages/sign_in.dart';
@@ -23,6 +25,8 @@ class AppRouteName {
   static const String chatPage = "chat-page";
   static const String taskPage = "task-page";
   static const String habitPage = "habit-page";
+  static const String profilePage = "profile-page";
+  static const String messagedUserPage = "message-user-page";
 }
 
 class AppRoute {
@@ -101,6 +105,29 @@ class AppRoute {
             name: AppRouteName.habitPage,
             pageBuilder: (context, state) {
               return _customPage(state, child: const HabitPageMain());
+            },
+          ),
+
+           GoRoute(
+            path: AppRouteName.profilePage.path,
+            name: AppRouteName.profilePage,
+            pageBuilder: (context, state) {
+              final String? userId = state.extra as String?;
+              return _customPage(state, child:  UserProfilePage(
+                userId: userId,
+              ));
+            },
+          ),
+
+           GoRoute(
+            path: AppRouteName.messagedUserPage.path,
+            name: AppRouteName.messagedUserPage,
+            pageBuilder: (context, state) {
+              final String? userId = state.extra as String?;
+              return _customPage(state,
+                  child: MessagedUserPage(
+                 
+                  ));
             },
           ),
         ]);

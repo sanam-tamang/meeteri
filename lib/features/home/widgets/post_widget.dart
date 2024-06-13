@@ -8,7 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meeteri/common/utils/custom_toast.dart';
 import 'package:meeteri/common/widgets/custom_cache_network_image.dart';
-import 'package:meeteri/features/chat/repositories/message_repository.dart';
+
 import 'package:meeteri/features/post/utils.dart';
 import 'package:meeteri/router.dart';
 
@@ -79,18 +79,14 @@ class _PostCardsWidgetState extends State<PostCardsWidget> {
 
           var data = snapshot.data!.data() as Map<String, dynamic>;
           return GestureDetector(
-              onTap: () => _createChatRoom(data['userId']),
+              onTap: () => _gotoUserProfile(data['userId']),
               child: _userTopPost(
                   username: data['username'], avatar: data['avatar']));
         });
   }
 
-  void _createChatRoom(String messagedUserId) {
-    ChatRoomRepository.instance.createChatRoom(messagedUserId).then((value) {
-      customToast(context, "Chat room created");
-    }).catchError((e) {
-      customToast(context, e.toString());
-    });
+  void _gotoUserProfile(String? userId) {
+    context.pushNamed(AppRouteName.profilePage, extra: userId);
   }
 
   Widget _postCard(Post post) {

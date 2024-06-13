@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meeteri/common/widgets/app_logo.dart';
 import 'package:toastification/toastification.dart';
 import '../../../dependency_injection.dart';
 import '/common/extensions.dart';
@@ -66,14 +68,12 @@ class _SignInPageState extends State<SignInPage> {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 child: Column(
                   children: [
-                    //  const  AppLogo(
-                    //     center: true,
-                    //   ),
+                    const AppLogo(),
                     Text(
-                      "Welcome Back",
+                      "Always here, Always caring ",
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
-                    _customGap(72),
+                    _customGap(46),
                     // const Spacer(),
                     CustomTextField(
                       hintText: 'Enter your email',
@@ -82,7 +82,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     _customGap(),
                     CustomTextField(
-                      hintText: 'Enter your passoword',
+                      hintText: 'Enter your password',
                       controller: passwordController,
                       labelText: "Password",
                       obscureText: true,
@@ -98,14 +98,18 @@ class _SignInPageState extends State<SignInPage> {
                       onPressed: _navigateToSignUpPage,
                       child: RichText(
                         text: const TextSpan(children: [
-                          TextSpan(text: "Don't have an account yet?"),
+                          TextSpan(
+                              text: "Don't have an account yet?",
+                              style: TextStyle(color: Colors.black54)),
                           TextSpan(
                               text: "Sign up",
                               style: TextStyle(color: Colors.blue)),
                         ]),
                       ),
-                    )
+                    ),
                     // const Spacer(),
+
+                    const Gap(100),
                   ],
                 ),
               ),
