@@ -8,6 +8,8 @@ import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:meeteri/dependency_injection.dart';
+import 'package:meeteri/features/post/blocs/post_bloc/post_bloc.dart';
 import '/common/repositories/image_uploader_repository.dart';
 
 import '/common/utils/custom_toast.dart';
@@ -143,6 +145,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
             context,
             'Post created successfully',
           );
+          sl<PostBloc>().add(const PostEvent.get());
           _formKey.currentState!.reset();
           context.pop();
         }).catchError((error) {

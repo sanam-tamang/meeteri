@@ -6,6 +6,7 @@ import 'package:meeteri/core/failure/failure.dart';
 import '../../../common/widgets/custom_loading_indicator.dart';
 import '../../post/blocs/post_bloc/post_bloc.dart';
 import '../../post/models/post.dart';
+import '../widgets/post_cart.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -60,15 +61,17 @@ class _ExplorePageState extends State<ExplorePage> {
             duration: const Duration(milliseconds: 200),
             firstChild: Container(
               color: Colors.blue,
-              child: const Center(
-                  child: Text('Experiences',
-                      style: TextStyle(color: Colors.white))),
+              child: PostCardsWidget(
+                category: 'experience',
+                posts: posts,
+              ),
             ),
             secondChild: Container(
               color: Colors.red,
-              child: const Center(
-                  child: Text('Study Materials',
-                      style: TextStyle(color: Colors.white))),
+              child: PostCardsWidget(
+                category: 'study-material',
+                posts: posts,
+              ),
             ),
             crossFadeState: _showFirst
                 ? CrossFadeState.showFirst

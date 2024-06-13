@@ -252,7 +252,10 @@ class _SignUpPageState extends State<SignUpPage> {
         children: [
           _avatar == null
               ? const Text('No image selected.')
-              : Image.file(_avatar!),
+              : CircleAvatar(
+                  radius: 80,
+                  backgroundImage: FileImage(_avatar!),
+                ),
           ElevatedButton(
             onPressed: _pickAvatar,
             child: const Text('Pick Avatar'),
