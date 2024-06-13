@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meeteri/features/chat/blocs/message_cubit/message_cubit.dart';
+import 'package:meeteri/features/chat/blocs/messaged_users_cubit/messaged_users_cubit.dart';
 import '/common/theme/app_theme.dart';
 import 'dependency_injection.dart';
 import 'features/auth/blocs/auth_bloc/auth_bloc.dart';
@@ -29,6 +31,13 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => sl<PostBloc>(),
+          ),
+
+            BlocProvider(
+            create: (context) => sl<MessagedUsersCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => sl<MessageCubit>(),
           ),
         ],
         child: MaterialApp.router(

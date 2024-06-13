@@ -3,6 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:meeteri/features/chat/pages/chat_page.dart';
+import 'package:meeteri/features/chat/pages/messaged_user.dart';
 import 'package:meeteri/features/home/pages/explore_page.dart';
 import 'package:meeteri/features/post/blocs/post_bloc/post_bloc.dart';
 import 'package:meeteri/features/profile/pages/profile.dart';
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     ExplorePage(),
     Text('Exercise Page'),
     Text('add btn'),
-    ChatPage(),
+    MessagedUserPage(),
     UserProfileScreen(),
   ];
 
