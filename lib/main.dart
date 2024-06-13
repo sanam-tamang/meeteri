@@ -32,8 +32,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => sl<PostBloc>(),
           ),
-
-            BlocProvider(
+          BlocProvider(
             create: (context) => sl<MessagedUsersCubit>(),
           ),
           BlocProvider(
@@ -44,7 +43,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Meeteri',
           theme: AppTheme.lightTheme(),
-          darkTheme: AppTheme.darkTheme(),
+          // darkTheme: AppTheme.darkTheme(),
           routerConfig: AppRoute.call(),
         ));
   }

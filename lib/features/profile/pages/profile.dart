@@ -2,25 +2,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meeteri/common/db_collections.dart';
 import 'package:meeteri/features/note/pages/create_note.dart';
 import 'package:meeteri/features/profile/repositories/user_repository.dart';
 import 'package:meeteri/router.dart';
 
-class UserProfileScreen extends StatefulWidget {
+import '../../../common/utils/custom_toast.dart';
+import '../../chat/repositories/message_repository.dart';
+
+class UserProfilePage extends StatefulWidget {
   final String? userId;
 
-  const UserProfileScreen({
+  const UserProfilePage({
     super.key,
     this.userId,
   });
 
   @override
-  State<UserProfileScreen> createState() => _UserProfileScreenState();
+  State<UserProfilePage> createState() => _UserProfilePageState();
 }
 
-class _UserProfileScreenState extends State<UserProfileScreen> {
+class _UserProfilePageState extends State<UserProfilePage> {
   late String? userId;
 
   @override
@@ -33,9 +37,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Profile'),
+        title: const Text('Profile'),
       ),
-   
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(DBCollection.user)
@@ -50,26 +53,45 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    userData["avatar"] != null
-                        ? CircleAvatar(
-                            radius: 50,
-                            backgroundImage: NetworkImage(userData['avatar']),
+                    userData["avatar"] != null || userData["avatar"] != ""
+                        ? Center(
+                            child: CircleAvatar(
+                              radius: 70,
+                              backgroundImage: NetworkImage(userData['avatar']),
+                            ),
                           )
-                        : CircleAvatar(
-                            radius: 50,
-                            child: Container(
-                              color: Colors.grey.shade200,
+                        : Center(
+                            child: CircleAvatar(
+                              radius: 70,
+                              child: Container(
+                                color: Colors.grey.shade200,
+                              ),
                             ),
                           ),
-                    const SizedBox(height: 20),
-                    Text('Username: ${userData['username'] ?? ''}'),
-                    Text('User Type: ${userData['userType'] ?? ''}'),
+                    const Gap(20),
+//TODO::: fsdfsd fsf
+                    widget.userId != null
+                        ? FilledButton(
+                            onPressed: () => _createChatRoom(widget.userId!),
+                            child: const Text("Chat anonymously"))
+                        : FilledButton(
+                            onPressed: () {}, child: const Text("Edit")),
+
+                    Text('${userData['username'] ?? ''}'),
+                    Text('${userData['userType']}'),
                     Text('Gender: ${userData['gender'] ?? ''}'),
                     Text('Date of Birth: ${userData['dateOfBirth'] ?? ''}'),
+                    const Gap(40),
                     ListTile(
                       onTap: () => context.pushNamed(AppRouteName.showNote,
                           extra: userId),
                       title: const Text("Notes"),
+                    ),
+                    ListTile(
+                      onTap: () => context.pushNamed(
+                        AppRouteName.habitPage,
+                      ),
+                      title: const Text("Habits"),
                     ),
                   ],
                 ),
@@ -85,5 +107,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
- 
+  void _createChatRoom(String messagedUserId) {
+    ChatRoomRepository.instance.createChatRoom(messagedUserId).then((value) {
+      customToast(context, "Chat room created");
+      context.pushNamed(AppRouteName.messagedUserPage);
+    }).catchError((e) {
+      customToast(context, e.toString());
+    });
+  }
 }

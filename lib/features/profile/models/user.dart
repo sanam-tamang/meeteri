@@ -60,7 +60,7 @@ class User extends Equatable {
       username: map['username']??"",
       email: map['email']??"",
       gender: map['gender'] ?? "",
-      userType: map['userType']!,
+      userType: map['userType']??"",
       avatar: map['avatar'] ?? "",
       dateOfBirth: map['dateOfBirth'] ?? "",
     );

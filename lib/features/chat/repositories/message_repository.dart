@@ -81,7 +81,7 @@ class ChatRoomRepository {
         return ChatRoomIndividual(
           chatRoomId: data['chatRoomId'],
           messagedUser: user!,
-          lastMessage: data['lastMessage'],
+          lastMessage: data['lastMessage'] ?? "",
           lastMessageTime: timestamp.toDate(),
         );
       }));

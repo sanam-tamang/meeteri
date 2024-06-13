@@ -1,6 +1,11 @@
 
 
 import '/core/failure/failure.dart';
+extension StringExtension on String {
+  String capitalizeFirst() {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+  }
+}
 
 extension RoutePath on String {
   String get path => "/$this";

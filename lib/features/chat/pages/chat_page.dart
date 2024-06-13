@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:go_router/go_router.dart';
 import 'package:meeteri/common/widgets/custom_loading_indicator.dart';
+import 'package:meeteri/router.dart';
 
 import '../../../common/theme/pallets.dart';
 import '../../../common/widgets/build_avatar_image.dart';
@@ -71,7 +73,7 @@ class _ChatPageState extends State<ChatPage> {
                   width: 15,
                 ),
                 Text(
-                  widget.chatRoomIndividual.messagedUser.username!,
+                  widget.chatRoomIndividual.messagedUser.username,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -103,9 +105,8 @@ class _ChatPageState extends State<ChatPage> {
 
   void _gotoProfile(BuildContext context,
       {required ChatRoomIndividual chatroom}) {
-    //TODO::
-    // Navigator.of(context).pushNamed(AppRouteName.profile,
-    //     arguments: {'userId': chatroom.messagedUser.userId});
+    context.pushNamed(AppRouteName.profilePage,
+        extra: chatroom.messagedUser.userId);
   }
 }
 
@@ -190,7 +191,7 @@ class _SendMessageTextFieldAndButtonState
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 decoration: BoxDecoration(
-                    color: Colors.grey.shade700,
+                    color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(25)),
                 child: TextFormField(
                   controller: widget.controller,

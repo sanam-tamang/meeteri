@@ -21,6 +21,7 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.obscureText = false,
     this.isNumerical = false,
+    this.maxLines=1
   });
   final TextInputType keyboardType;
   final String hintText;
@@ -37,6 +38,7 @@ class CustomTextField extends StatelessWidget {
   final bool readOnly;
   final bool obscureText;
   final bool isNumerical;
+  final int? maxLines;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,6 +50,7 @@ class CustomTextField extends StatelessWidget {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             obscureText: obscureText,
             readOnly: readOnly,
+            maxLines:maxLines ,
             autofillHints: autofillHints,
             inputFormatters:
                 isNumerical ? [FilteringTextInputFormatter.digitsOnly] : null,

@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  audio_wave:
+    dependency: "direct main"
+    description:
+      name: audio_wave
+      sha256: "9bf1ceec220cc52c80bc0ce6a3d8b9c20c69b86bce8ad83da758562bb58edde2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.5"
   bloc:
     dependency: transitive
     description:
@@ -433,6 +441,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      sha256: d0f0d49112f2f4b192481c16d05b6418bd7820e021e265a3c22db98acf7ed7fb
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.68.0"
   flutter:
     dependency: "direct main"
     description: flutter

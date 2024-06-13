@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '/common/theme/pallets.dart';
 
-
-
 class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
-      textTheme: GoogleFonts.latoTextTheme(
-          const TextTheme()),
+      textTheme: GoogleFonts.poppinsTextTheme(const TextTheme()),
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
       ),
@@ -19,7 +16,7 @@ class AppTheme {
 
   static ThemeData darkTheme() {
     return ThemeData(
-      textTheme: GoogleFonts.latoTextTheme(const TextTheme()),
+      textTheme: GoogleFonts.poppinsTextTheme(const TextTheme()),
       colorScheme: ColorScheme.fromSeed(
         brightness: Brightness.dark,
         seedColor: AppColors.primary,
