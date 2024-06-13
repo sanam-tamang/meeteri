@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -76,7 +77,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Registration Form'),
+          leading: const BackButton(),
+          title: const Text('Create Your Account'),
         ),
         body: BlocListener<AuthBloc, AuthState>(
           bloc: _authBloc,
@@ -121,56 +123,48 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildUserTypePage() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('Select User Type:'),
-          ListTile(
-            title: const Text('Counselor'),
-            leading: Radio<UserType>(
-              value: UserType.counselor,
-              groupValue: _userType,
-              onChanged: (UserType? value) {
-                setState(() {
-                  _userType = value;
-                });
-              },
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('User'),
+            SizedBox(
+              height: 150,
+              width: double.infinity,
+              child: GridView(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                         height: 100,
+                      color: Colors.blue.shade600,
+                      child: const Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Counselor'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          ListTile(
-            title: const Text('Myself'),
-            leading: Radio<UserType>(
-              value: UserType.student,
-              groupValue: _userType,
-              onChanged: (UserType? value) {
-                setState(() {
-                  _userType = value;
-                });
+            const Gap(20),
+            ElevatedButton(
+              onPressed: () {
+                _pageController.nextPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.ease,
+                );
               },
+              child: const Text('Next'),
             ),
-          ),
-          ListTile(
-            title: const Text('For child'),
-            leading: Radio<UserType>(
-              value: UserType.parent,
-              groupValue: _userType,
-              onChanged: (UserType? value) {
-                setState(() {
-                  _userType = value;
-                });
-              },
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _pageController.nextPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.ease,
-              );
-            },
-            child: const Text('Next'),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

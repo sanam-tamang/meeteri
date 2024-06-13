@@ -35,7 +35,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       appBar: AppBar(
         title: const Text('User Profile'),
       ),
-   
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(DBCollection.user)
@@ -50,7 +49,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    userData["avatar"] != null
+                    userData["avatar"] != null || userData["avatar"] != ""
                         ? CircleAvatar(
                             radius: 50,
                             backgroundImage: NetworkImage(userData['avatar']),
@@ -71,6 +70,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           extra: userId),
                       title: const Text("Notes"),
                     ),
+                    ListTile(
+                      onTap: () => context.pushNamed(
+                        AppRouteName.habitPage,
+                      ),
+                      title: const Text("Habits"),
+                    ),
                   ],
                 ),
               ),
@@ -84,6 +89,4 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       ),
     );
   }
-
- 
 }

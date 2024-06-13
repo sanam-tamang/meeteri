@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meeteri/common/extensions.dart';
-import 'package:meeteri/core/failure/failure.dart';
+
 
 import '../../../common/widgets/custom_loading_indicator.dart';
 import '../../post/blocs/post_bloc/post_bloc.dart';
@@ -42,43 +42,43 @@ class _ExplorePageState extends State<ExplorePage> {
     return DefaultTabController(
       length: 2,
       initialIndex: 0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          TabBar(
-              onTap: (value) {
-                _toggle();
-              },
-              tabs: const [
-                Tab(
-                  child: Text("Experience"),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            TabBar(
+                onTap: (value) {
+                  _toggle();
+                },
+                tabs: const [
+                  Tab(
+                    child: Text("Experience"),
+                  ),
+                  Tab(
+                    child: Text("Study Materials"),
+                  ),
+                ]),
+            AnimatedCrossFade(
+              duration: const Duration(milliseconds: 200),
+              firstChild: Container(
+                child: PostCardsWidget(
+                  category: 'experience',
+                  posts: posts,
                 ),
-                Tab(
-                  child: Text("Study Materials"),
+              ),
+              secondChild: Container(
+                child: PostCardsWidget(
+                  category: 'study-material',
+                  posts: posts,
                 ),
-              ]),
-          AnimatedCrossFade(
-            duration: const Duration(milliseconds: 200),
-            firstChild: Container(
-              color: Colors.blue,
-              child: PostCardsWidget(
-                category: 'experience',
-                posts: posts,
               ),
+              crossFadeState: _showFirst
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
             ),
-            secondChild: Container(
-              color: Colors.red,
-              child: PostCardsWidget(
-                category: 'study-material',
-                posts: posts,
-              ),
-            ),
-            crossFadeState: _showFirst
-                ? CrossFadeState.showFirst
-                : CrossFadeState.showSecond,
-          ),
-          const SizedBox(height: 20),
-        ],
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

@@ -71,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
                   width: 15,
                 ),
                 Text(
-                  widget.chatRoomIndividual.messagedUser.username!,
+                  widget.chatRoomIndividual.messagedUser.username,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

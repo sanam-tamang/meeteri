@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -10,9 +9,6 @@ import '/common/utils/floating_loading_indicator.dart';
 import '/common/widgets/custom_text_field.dart';
 import '/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import '/router.dart';
-
-
-
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -45,105 +41,93 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-    
-          child: BlocListener<AuthBloc, AuthState>(
-           
-           bloc: _authBloc,
-            listener: (context, state) {
-
+        child: BlocListener<AuthBloc, AuthState>(
+          bloc: _authBloc,
+          listener: (context, state) {
             state.maybeMap(
-              loading: (_)=> floatingLoadingIndicator(context),
-              failure: (f){  
-                customToast(context,  f.failure.getMessage, type: ToastificationType.error);
-              context.pop();
-            
-              },
-              loaded: (s){  
-                  customToast( context, s.message);
-              context.pop();
-              context.goNamed(AppRouteName.home);
-
-              },
-              orElse: (){});
-              
-            },
-            child: Form(
-              key: _form,
-              child: Center(
-                child: SingleChildScrollView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  child: Column(
-                    children: [
+                loading: (_) => floatingLoadingIndicator(context),
+                failure: (f) {
+                  customToast(context, f.failure.getMessage,
+                      type: ToastificationType.error);
+                  context.pop();
+                },
+                loaded: (s) {
+                  customToast(context, s.message);
+                  context.pop();
+                  context.goNamed(AppRouteName.home);
+                },
+                orElse: () {});
+          },
+          child: Form(
+            key: _form,
+            child: Center(
+              child: SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                child: Column(
+                  children: [
                     //  const  AppLogo(
                     //     center: true,
                     //   ),
-                      Text(
-                        "Welcome Back",
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      _customGap(72),
-                      // const Spacer(),
-                      CustomTextField(
-                        hintText: 'Enter your email',
-                        controller: emailController,
-                       labelText: 'Email',
-                      ),
-                      _customGap(),
-                      CustomTextField(
-                        hintText: 'Enter your passoword',
-                        controller: passwordController,
-                        labelText: "Password",
-                        obscureText: true,
-                      ),
-                      _customGap(48),
+                    Text(
+                      "Welcome Back",
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    _customGap(72),
+                    // const Spacer(),
+                    CustomTextField(
+                      hintText: 'Enter your email',
+                      controller: emailController,
+                      labelText: 'Email',
+                    ),
+                    _customGap(),
+                    CustomTextField(
+                      hintText: 'Enter your passoword',
+                      controller: passwordController,
+                      labelText: "Password",
+                      obscureText: true,
+                    ),
+                    _customGap(48),
 
-              
-                  
-                      FilledButton(
-                          onPressed: () => login(), child: const Text("Login")),
+                    FilledButton(
+                        onPressed: () => login(), child: const Text("Login")),
 
-                      _customGap(),
+                    _customGap(),
 
-                      TextButton(
-                         onPressed: _navigateToSignUpPage,
-                         child:  RichText(
-                          text: const TextSpan(
-                            children: 
-                            [
-                              TextSpan(text: "Don't have an account yet?" ),
-                              TextSpan(text: "Sign up", style: TextStyle(
-                                color: Colors.blue
-                              ) ),
-                            ]
-                          ),
-                         ), 
-                      )
-                      // const Spacer(),
-                    ],
-                  ),
+                    TextButton(
+                      onPressed: _navigateToSignUpPage,
+                      child: RichText(
+                        text: const TextSpan(children: [
+                          TextSpan(text: "Don't have an account yet?"),
+                          TextSpan(
+                              text: "Sign up",
+                              style: TextStyle(color: Colors.blue)),
+                        ]),
+                      ),
+                    )
+                    // const Spacer(),
+                  ],
                 ),
               ),
             ),
           ),
         ),
-      
+      ),
     );
   }
 
-  SizedBox _customGap([double? size=24]) {
-    return  SizedBox(
+  SizedBox _customGap([double? size = 24]) {
+    return SizedBox(
       height: size,
     );
   }
 
-  void _navigateToSignUpPage(){
-    context.goNamed(AppRouteName.signUp);
+  void _navigateToSignUpPage() {
+    context.pushNamed(AppRouteName.signUp);
   }
 
   void login() {
-  
-      _authBloc.add(AuthEvent.signIn(email: emailController.text, password: passwordController.text));
-    
+    _authBloc.add(AuthEvent.signIn(
+        email: emailController.text, password: passwordController.text));
   }
 }

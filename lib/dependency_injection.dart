@@ -6,7 +6,6 @@ import 'package:meeteri/features/auth/repositories/auth_repository.dart';
 import 'package:meeteri/features/chat/blocs/message_cubit/message_cubit.dart';
 import 'package:meeteri/features/chat/blocs/messaged_users_cubit/messaged_users_cubit.dart';
 import 'package:meeteri/features/post/blocs/post_bloc/post_bloc.dart';
-import 'package:meeteri/features/post/repositories/post_repositories.dart';
 import 'package:meeteri/features/profile/repositories/user_repository.dart';
 
 GetIt sl = GetIt.instance;
