@@ -5,6 +5,9 @@ import '/common/extensions.dart';
 import '/features/auth/pages/sign_in.dart';
 import '/features/auth/pages/sign_up.dart';
 import '/features/home/pages/home_page.dart';
+import 'common/bloc_listenable.dart';
+import 'dependency_injection.dart';
+import 'features/auth/blocs/auth_bloc/auth_bloc.dart';
 
 class AppRouteName {
   static const String home = "home";
@@ -16,20 +19,20 @@ class AppRouteName {
 class AppRoute {
   static GoRouter call() {
     return GoRouter(
-        initialLocation: AppRouteName.home.path,
-        // redirect: (context, state) {
-        //   final currentPath = state.uri.path;
-        //   bool isAuthPath = currentPath == AppRouteName.signIn.path ||
-        //       currentPath == AppRouteName.signUp.path;
-        //   if (isAuthPath) {
-        //     return sl<AuthBloc>().state.maybeWhen(
-        //         loaded: (_) => AppRouteName.home.rootPath,
-        //         orElse: () => null);
-        //   } else {
-        //     return null;
-        //   }
-        // },
-        // refreshListenable: BlocListenable(sl<AuthBloc>()),
+        initialLocation: AppRouteName.signIn.path,
+        redirect: (context, state) {
+          final currentPath = state.uri.path;
+          bool isAuthPath = currentPath == AppRouteName.signIn.path ||
+              currentPath == AppRouteName.signUp.path;
+          if (isAuthPath) {
+            return sl<AuthBloc>().state.maybeWhen(
+                loaded: (_) => AppRouteName.home.rootPath,
+                orElse: () => null);
+          } else {
+            return null;
+          }
+        },
+        refreshListenable: BlocListenable(sl<AuthBloc>()),
         routes: [
           GoRoute(
             path: AppRouteName.home.rootPath,

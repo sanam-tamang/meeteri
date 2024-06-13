@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/common/theme/app_theme.dart';
-import 'features/dependency_injection.dart';
+import 'dependency_injection.dart';
 import 'features/auth/blocs/auth_bloc/auth_bloc.dart';
+import 'features/post/blocs/post_bloc/post_bloc.dart';
 import 'router.dart';
 import 'firebase_options.dart';
 
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => sl<AuthBloc>(),
+          ),
+          BlocProvider(
+            create: (context) => sl<PostBloc>(),
           ),
         ],
         child: MaterialApp.router(

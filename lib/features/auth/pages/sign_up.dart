@@ -4,13 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../../../dependency_injection.dart';
 import '/common/extensions.dart';
 import '/common/utils/username_generator.dart';
 import '/router.dart';
 import '../../../common/utils/floating_loading_indicator.dart';
 import '/common/enum.dart';
 import '/common/utils/custom_toast.dart';
-import '../../dependency_injection.dart';
 import '/features/auth/blocs/auth_bloc/auth_bloc.dart';
 import 'package:toastification/toastification.dart';
 

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:meeteri/features/home/pages/explore_page.dart';
+import 'package:meeteri/features/post/blocs/post_bloc/post_bloc.dart';
+import '../../../dependency_injection.dart';
 import '/router.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,15 +16,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  final _visible = ValueNotifier(true); // For SpeedDial visibility
+  final _visible = ValueNotifier(true);
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Explore Page'),
+    ExplorePage(),
     Text('Exercise Page'),
-    Text(''), // Placeholder for SpeedDial
+    Text('add btn'),
     Text('Message Page'),
     Text('UserProfile Page'),
   ];
+
+  @override
+  void initState() {
+    sl<PostBloc>().add(const PostEvent.get());
+    super.initState();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -31,8 +40,8 @@ class _HomePageState extends State<HomePage> {
 
   ///we gonna handle our operations here :)
   void _speedDialAction(BuildContext context, String title) {
-    if (title == "Annonymous") {
-      context.pushNamed(AppRouteName.createPost, extra: 'annonymous');
+    if (title == "Experience") {
+      context.pushNamed(AppRouteName.createPost, extra: 'experience');
     } else if (title == "Study Material") {
       context.pushNamed(AppRouteName.createPost, extra: 'study-material');
     }
@@ -61,18 +70,15 @@ class _HomePageState extends State<HomePage> {
             icon: SpeedDial(
               foregroundColor: Colors.white,
               activeForegroundColor: Colors.yellow,
-
               activeIcon: MdiIcons.close,
-
               visible: _visible.value,
-              backgroundColor:
-                  Theme.of(context).primaryColor, // Optional: Set FAB color
+              backgroundColor: Theme.of(context).primaryColor,
               children: [
                 SpeedDialChild(
-                  // child: Text("Annonymous"),
+                  // child: Text("Anonymous"),
                   backgroundColor: Colors.blue,
-                  onTap: () => _speedDialAction(context, 'Annonymous'),
-                  label: 'Annonymous',
+                  onTap: () => _speedDialAction(context, 'Experience'),
+                  label: 'Experience',
                 ),
                 SpeedDialChild(
                   // child: const Icon(Icons.add_a_photo),
@@ -81,7 +87,6 @@ class _HomePageState extends State<HomePage> {
                   label: 'Study Material',
                 ),
               ],
-
               child: Icon(MdiIcons.plus),
             ),
             label: '', // Remove label for SpeedDial

@@ -21,6 +21,11 @@ class PostRepository {
     await _db.collection('posts').doc(post.postId).update(post.toJson());
   }
 
+  Future<List<Post>> getAllPosts() async {
+    QuerySnapshot querySnapshot = await _db.collection('posts').get();
+    return querySnapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+  }
+
   Future<void> deletePost(String postId) async {
     await _db.collection('posts').doc(postId).delete();
   }

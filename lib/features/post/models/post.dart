@@ -30,7 +30,7 @@ class Post {
       postContent: doc['postContent'],
       category: doc['category'],
       imageUrl: doc['imageUrl'],
-      hashtags: List<String>.from(doc['hashtags']),
+      hashtags: List.from(doc['hashtags']),
       timestamp: doc['timestamp'],
       likes: doc['likes'],
       likedBy: List<String>.from(doc['likedBy']),
