@@ -25,6 +25,7 @@ mixin _$UserModel {
   String get email => throw _privateConstructorUsedError;
   String get userType => throw _privateConstructorUsedError;
   String get dateOfBirth => throw _privateConstructorUsedError;
+  String get gender => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,6 +45,7 @@ abstract class $UserModelCopyWith<$Res> {
       String email,
       String userType,
       String dateOfBirth,
+      String gender,
       String? avatar});
 }
 
@@ -65,6 +67,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? email = null,
     Object? userType = null,
     Object? dateOfBirth = null,
+    Object? gender = null,
     Object? avatar = freezed,
   }) {
     return _then(_value.copyWith(
@@ -88,6 +91,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
               as String,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -110,6 +117,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String email,
       String userType,
       String dateOfBirth,
+      String gender,
       String? avatar});
 }
 
@@ -129,6 +137,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? email = null,
     Object? userType = null,
     Object? dateOfBirth = null,
+    Object? gender = null,
     Object? avatar = freezed,
   }) {
     return _then(_$UserModelImpl(
@@ -152,6 +161,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
               as String,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -169,6 +182,7 @@ class _$UserModelImpl implements _UserModel {
       required this.email,
       required this.userType,
       required this.dateOfBirth,
+      required this.gender,
       this.avatar = ""});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -185,12 +199,14 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String dateOfBirth;
   @override
+  final String gender;
+  @override
   @JsonKey()
   final String? avatar;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, username: $username, email: $email, userType: $userType, dateOfBirth: $dateOfBirth, avatar: $avatar)';
+    return 'UserModel(id: $id, username: $username, email: $email, userType: $userType, dateOfBirth: $dateOfBirth, gender: $gender, avatar: $avatar)';
   }
 
   @override
@@ -206,13 +222,14 @@ class _$UserModelImpl implements _UserModel {
                 other.userType == userType) &&
             (identical(other.dateOfBirth, dateOfBirth) ||
                 other.dateOfBirth == dateOfBirth) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.avatar, avatar) || other.avatar == avatar));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, username, email, userType, dateOfBirth, avatar);
+      runtimeType, id, username, email, userType, dateOfBirth, gender, avatar);
 
   @JsonKey(ignore: true)
   @override
@@ -235,6 +252,7 @@ abstract class _UserModel implements UserModel {
       required final String email,
       required final String userType,
       required final String dateOfBirth,
+      required final String gender,
       final String? avatar}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -250,6 +268,8 @@ abstract class _UserModel implements UserModel {
   String get userType;
   @override
   String get dateOfBirth;
+  @override
+  String get gender;
   @override
   String? get avatar;
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meeteri/features/note/pages/note_page.dart';
 import '/features/post/pages/create_post_page.dart';
 import '/common/extensions.dart';
 import '/features/auth/pages/sign_in.dart';
@@ -14,6 +15,7 @@ class AppRouteName {
   static const String signUp = "sign-up";
   static const String signIn = "sign-in";
   static const String createPost = "create-post";
+  static const String showNote = "show-note";
 }
 
 class AppRoute {
@@ -66,7 +68,24 @@ class AppRoute {
                   ));
             },
           ),
+
+            GoRoute(
+            path: AppRouteName.showNote.path,
+            name: AppRouteName.showNote,
+            pageBuilder: (context, state) {
+              final String userId = state.extra as String;
+              return _customPage(state,
+                  child: NotesPage(
+                    userId: userId,
+                  ));
+            },
+          ),
+
         ]);
+
+        
+
+        
   }
 
   static Page<dynamic> _customPage(GoRouterState state,
