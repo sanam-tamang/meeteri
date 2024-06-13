@@ -6,6 +6,17 @@ import { initFlowbite } from 'flowbite'
 onMounted(() => {
     initFlowbite();
 })
+
+
+
+
+useHead({
+  title: 'Meeteri ',
+  meta: [
+    { name: 'description', content: 'Meeteri, your good friend' }
+  ],
+ 
+})
 </script>
 <template>
     <div class="relative">
