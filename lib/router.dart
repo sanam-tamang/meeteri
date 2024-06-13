@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meeteri/features/chat/pages/chat_page.dart';
 import 'package:meeteri/features/note/pages/note_page.dart';
 import '/features/post/pages/create_post_page.dart';
 import '/common/extensions.dart';
@@ -9,6 +10,7 @@ import '/features/home/pages/home_page.dart';
 import 'common/bloc_listenable.dart';
 import 'dependency_injection.dart';
 import 'features/auth/blocs/auth_bloc/auth_bloc.dart';
+import 'features/chat/models/chat_room.dart';
 
 class AppRouteName {
   static const String home = "home";
@@ -16,6 +18,8 @@ class AppRouteName {
   static const String signIn = "sign-in";
   static const String createPost = "create-post";
   static const String showNote = "show-note";
+  static const String chatPage = "chat-page";
+
 }
 
 class AppRoute {
@@ -77,6 +81,18 @@ class AppRoute {
               return _customPage(state,
                   child: NotesPage(
                     userId: userId,
+                  ));
+            },
+          ),
+
+            GoRoute(
+            path: AppRouteName.chatPage.path,
+            name: AppRouteName.chatPage,
+            pageBuilder: (context, state) {
+              final ChatRoomIndividual user  = state.extra as ChatRoomIndividual;
+              return _customPage(state,
+                  child: ChatPage( 
+                 chatRoomIndividual: user,
                   ));
             },
           ),

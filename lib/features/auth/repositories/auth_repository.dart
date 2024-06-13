@@ -30,10 +30,10 @@ class AuthRepository implements BaseAuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final BaseInternetChecker _internetInfo;
   final BaseUserRepository _userRepository;
-  AuthRepository(
-      {required BaseInternetChecker internetInfo,
-      required BaseUserRepository userRepository,})
-      : _userRepository = userRepository,
+  AuthRepository({
+    required BaseInternetChecker internetInfo,
+    required BaseUserRepository userRepository,
+  })  : _userRepository = userRepository,
         _internetInfo = internetInfo;
   @override
   FutureEither<String> signIn(
@@ -90,6 +90,7 @@ class AuthRepository implements BaseAuthRepository {
             avatar: avatar,
             userType: userType,
             gender: gender,
+            email: email,
             dateOfBirth: dateOfBirth);
 
         return const Right("User created");

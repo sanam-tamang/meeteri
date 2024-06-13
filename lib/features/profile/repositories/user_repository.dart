@@ -4,7 +4,7 @@ import '/common/enum.dart';
 import '/common/typedef.dart';
 import '/core/failure/failure.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '/features/profile/models/user.dart';
+
 
 sealed class BaseUserRepository {
   FutureEither<String> addUserInfo(
@@ -13,7 +13,9 @@ sealed class BaseUserRepository {
       required String avatar,
       required UserType userType,
       required String gender,
-      required String dateOfBirth});
+      required String dateOfBirth,
+      required String email
+      });
 
   FutureEither<String> addCounselorInfo({
     required String userId,
@@ -23,7 +25,7 @@ sealed class BaseUserRepository {
     required String hospital,
   });
 
-  Future<UserModel?> getUser(String userId) ;
+  // Future<UserModel?> getUser(String userId) ;
 
 
   
@@ -39,15 +41,17 @@ class UserRepository implements BaseUserRepository {
     required UserType userType,
     required String gender,
     required String dateOfBirth,
+    required String email
   }) async {
     try {
       await _firestore.collection(DBCollection.user).doc(userId).set({
         'userId': userId, 
         'username': username,
         'avatar': avatar,
-        'userType': userType.toString(),
+        'userType': userType.name,
         'gender': gender,
         'dateOfBirth': dateOfBirth,
+        'email': email,
       });
 
       return const Right('User info added successfully');
@@ -79,15 +83,15 @@ class UserRepository implements BaseUserRepository {
     }
   }
 
-  @override
-  Future<UserModel?> getUser(String userId) async {
-    final map = await _firestore.collection('user').doc(userId).get();
-    final data = map.data();
-    if (data != null) {
-      final user = UserModel.fromJson(data);
-      return user;
-    }
+  // @override
+  // Future<UserModel?> getUser(String userId) async {
+  //   final map = await _firestore.collection('user').doc(userId).get();
+  //   final data = map.data();
+  //   if (data != null) {
+  //     final user = UserModel.fromJson(data);
+  //     return user;
+  //   }
 
-    return null;
-  }
+  //   return null;
+  // }
 }

@@ -6,7 +6,7 @@ import 'package:meeteri/core/failure/failure.dart';
 import '../../../common/widgets/custom_loading_indicator.dart';
 import '../../post/blocs/post_bloc/post_bloc.dart';
 import '../../post/models/post.dart';
-import '../widgets/post_cart.dart';
+import '../widgets/post_widget.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
