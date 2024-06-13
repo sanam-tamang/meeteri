@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:meeteri/common/widgets/build_avatar_image.dart';
 import 'package:meeteri/common/widgets/custom_loading_indicator.dart';
 import 'package:meeteri/dependency_injection.dart';
@@ -29,6 +30,11 @@ class _MessagedUserPageState extends State<MessagedUserPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Chat"),
+      ),
+      floatingActionButton: FilledButton.icon(
+        icon: Icon(MdiIcons.chat),
+        onPressed: () {},
+        label: const Text("Chat with expert"),
       ),
       body: BlocBuilder<MessagedUsersCubit, MessagedUsersState>(
         builder: (context, state) {

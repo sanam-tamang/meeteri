@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:meeteri/common/db_collections.dart';
 import 'package:meeteri/features/note/pages/create_note.dart';
 import 'package:meeteri/features/profile/repositories/user_repository.dart';
@@ -69,29 +70,45 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             ),
                           ),
                     const Gap(20),
-//TODO::: fsdfsd fsf
                     widget.userId != null
-                        ? FilledButton(
+                        ? FilledButton.icon(
+                            icon: Icon(MdiIcons.chat),
                             onPressed: () => _createChatRoom(widget.userId!),
-                            child: const Text("Chat anonymously"))
+                            label: const Text("Chat anonymously"))
                         : FilledButton(
                             onPressed: () {}, child: const Text("Edit")),
-
                     Text('${userData['username'] ?? ''}'),
                     Text('${userData['userType']}'),
-                    Text('Gender: ${userData['gender'] ?? ''}'),
-                    Text('Date of Birth: ${userData['dateOfBirth'] ?? ''}'),
+                    widget.userId != null
+                        ? const SizedBox()
+                        : Text('Gender: ${userData['gender'] ?? ''}'),
+                    widget.userId != null
+                        ? const SizedBox()
+                        : Text(
+                            'Date of Birth: ${userData['dateOfBirth'] ?? ''}'),
                     const Gap(40),
-                    ListTile(
-                      onTap: () => context.pushNamed(AppRouteName.showNote,
-                          extra: userId),
-                      title: const Text("Notes"),
-                    ),
-                    ListTile(
-                      onTap: () => context.pushNamed(
-                        AppRouteName.habitPage,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card.filled(
+                        color: Colors.white,
+                        child: ListTile(
+                          onTap: () => context.pushNamed(AppRouteName.showNote,
+                              extra: userId),
+                          title: const Text("Notes"),
+                        ),
                       ),
-                      title: const Text("Habits"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card.filled(
+                        color: Colors.white,
+                        child: ListTile(
+                          onTap: () => context.pushNamed(
+                            AppRouteName.habitPage,
+                          ),
+                          title: const Text("Habits"),
+                        ),
+                      ),
                     ),
                   ],
                 ),
