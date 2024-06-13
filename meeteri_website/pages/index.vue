@@ -6,7 +6,7 @@
       <Hero/>
 
       <!-- Hero section end -->
-      <br>
+      
 
       <!-- Features section start -->
       <Features/>
@@ -17,18 +17,23 @@
       <HowItWorks/>
       <!-- How it works section end -->
 
-      <br>
+
       <!-- Testimonials section start -->
       <Testimonials/>
       <!-- Testimonials section end -->
       
-      <br>
+      <!-- faqs section start -->
+
+      <Faq/>
+     
+
+      <!-- faqs section end -->
 
       <!-- Contact us section start -->
       <Contact/>
       <!-- Contact us section end -->
 
-      <br>
+    
 
       <!-- Footer section start -->      
       <Footer/>

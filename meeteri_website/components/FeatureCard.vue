@@ -7,7 +7,8 @@
 
 <div class="w-12 h-12  bg-gray-400 text-white flex justify-center items-center rounded-md">
 
-    <Icon class="text-xl " name="uil:user" />
+    <!-- <Icon class="text-xl " name="uil:user" /> -->
+    <nuxt-img src="/download_buttons.PNG" class="cursor-pointer" />
 </div>
 <p class="text-xl">Daily Routine Tracker</p>
 <div class="grid  grid-flow-col gap-3 justify-start items-center">

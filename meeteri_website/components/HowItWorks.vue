@@ -14,8 +14,8 @@
                 </span>
                 <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white"> Step :  
                     Download the app from the App Store or Google Play.</h3>
-                <div class="w-48">
-                    <nuxt-img src="/meeteri_full_logo.png" />
+                <div class="w-58 my-6">
+                    <nuxt-img src="/download_buttons.PNG" class="cursor-pointer" />
                 </div>
             </li>
             <li class="mb-10 ms-6">
@@ -26,7 +26,7 @@
                 <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white"> Step :  
                   Create an account and set up your profile.</h3>
                 <div class="w-48">
-                    <nuxt-img src="/meeteri_full_logo.png" />
+                    <nuxt-img src="/login_screen.png" />
                 </div>
             </li>
             <li class="mb-10 ms-6">
@@ -37,7 +37,7 @@
                 <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white"> Step :  
                     Start tracking your daily routines and engaging with the community.</h3>
                 <div class="w-48">
-                    <nuxt-img src="/meeteri_full_logo.png" />
+                    <nuxt-img src="/dashboard_screen.png" />
                 </div>
             </li>
           
